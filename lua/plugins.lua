@@ -35,9 +35,26 @@ require("lazy").setup({
   },
   -- Nvim-Tree
   {
-    "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" },
+  "nvim-tree/nvim-tree.lua",
+  dependencies = { "nvim-tree/nvim-web-devicons" },
+  config = function()
+    require("nvim-tree").setup({
+      view = {
+        width = 30,
+        side = "left",
+      },
+      renderer = {
+        group_empty = true,
+      },
+      filters = {
+        dotfiles = false,
+      },
+    })
+  end,
   },
-  { "nvim-tree/nvim-web-devicons", lazy = true },
+  {
+    "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" }
+  },
  -- nvim-cmp setup (autocomplete engine + LSP integration)
   {
   "hrsh7th/nvim-cmp",
