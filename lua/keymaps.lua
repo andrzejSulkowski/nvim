@@ -14,6 +14,9 @@ vim.keymap.set("n", "<leader>fh", ":Telescope help_tags<CR>", { desc = "Find Hel
 -- LSP
 vim.keymap.set("n", "gd", vim.lsp.buf.definition, { desc = "Go to Definition" })
 vim.keymap.set("n", "gr", vim.lsp.buf.references, { desc = "Find References" })
+
 vim.keymap.set("n", "K", vim.lsp.buf.hover, { desc = "Show Hover Info" })
+-- Show diagnostics (errors/warnings) under cursor
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show Diagnostics" })
 vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename Symbol" })
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
