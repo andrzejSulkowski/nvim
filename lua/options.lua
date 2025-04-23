@@ -5,3 +5,6 @@ vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
+
+vim.opt.smartindent = true
+vim.opt.autoindent = true

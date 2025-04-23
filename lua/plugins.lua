@@ -1,6 +1,16 @@
 require("lazy").setup({
-  { "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" },
-
+  {  
+    "nvim-treesitter/nvim-treesitter", 
+    build = ":TSUpdate", 
+    config = function () 
+      require("nvim-treesitter.configs").setup({
+        ensure_installed = { "dart", "lua", "typescript", "javascript", "json" },
+        highlight = { enable = true },
+        indent = { enable = true },
+      })
+    end,  
+    
+  },
   -- LSP Config
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim", config = true },
