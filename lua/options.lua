@@ -8,3 +8,5 @@ vim.opt.signcolumn = "yes"
 
 vim.opt.smartindent = true
 vim.opt.autoindent = true
+
+vim.o.showtabline = 2
