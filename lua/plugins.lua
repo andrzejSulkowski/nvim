@@ -15,6 +15,12 @@ require("lazy").setup({
     end,  
     
   },
+  -- Autopairs
+  {
+    "windwp/nvim-autopairs",
+    event = "InsertEnter",
+    opts = {} -- Delegates to the default config
+  },
   -- LSP Config
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim", config = true },
