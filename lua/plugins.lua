@@ -1,11 +1,15 @@
 require("lazy").setup({
+  {
+    "evanleck/vim-svelte",
+    ft = { "svelte" },
+  },
   {  
     "nvim-treesitter/nvim-treesitter", 
     build = ":TSUpdate", 
     config = function () 
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "dart", "lua", "typescript", "javascript", "json" },
-        highlight = { enable = true },
+        ensure_installed = { "dart", "lua", "typescript", "javascript", "json", "svelte", "css", "scss"} ,
+        highlight = { enable = true, additional_vim_regex_highlighting = { "svelte" } },
         indent = { enable = true },
       })
     end,  
@@ -14,8 +18,24 @@ require("lazy").setup({
   -- LSP Config
   { "neovim/nvim-lspconfig" },
   { "williamboman/mason.nvim", config = true },
-  { "williamboman/mason-lspconfig.nvim", config = true },
-
+  { "williamboman/mason-lspconfig.nvim", 
+    config = function()
+      require("mason-lspconfig").setup {
+        ensure_installed = { "svelte" },
+      }
+      local lspconfig = require("lspconfig")
+      -- your other servers…
+      lspconfig.svelte.setup {
+        on_attach = function(client, bufnr)
+          -- your common on_attach
+        end,
+        settings = {
+          -- any svelte-language-server options
+          svelte = { plugin = { css = { format = { enable = true } } } }
+        }
+      }
+    end,
+  },
   -- Theme: Kanagawa
   {
     "rebelot/kanagawa.nvim",
@@ -104,7 +124,8 @@ require("lazy").setup({
     require("which-key").setup()
   end,
   },
-    {'romgrk/barbar.nvim',
+  {
+    'romgrk/barbar.nvim',
     dependencies = {
       'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
       'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons

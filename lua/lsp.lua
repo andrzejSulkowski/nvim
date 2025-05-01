@@ -18,8 +18,9 @@ local on_attach = function(_, bufnr)
 end
 
 require("mason-lspconfig").setup {
+  ensure_installed = { "vtsls", "denols" }, 
   handlers = {
-    function(server_name)
+    function(server_name) 
       require("lspconfig")[server_name].setup {
         capabilities = capabilities,
       }

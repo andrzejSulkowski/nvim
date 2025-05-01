@@ -26,7 +26,7 @@ vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { desc = "Rename Symbol" }
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 
 -- Buffers
-vim.keymap.set('n', '<leader>bn', ':bnext<CR>', { desc = 'Next buffer' })
-vim.keymap.set('n', '<leader>bp', ':bprevious<CR>', { desc = 'Prev buffer' })
+vim.keymap.set('n', '<leader>bn', '<Cmd>BufferNext<CR>',     { desc="Next buffer (barbar)" })
+vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPrevious<CR>', { desc="Prev buffer (barbar)" })
 vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "Find Buffers" })
 vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = 'Close buffer' })
