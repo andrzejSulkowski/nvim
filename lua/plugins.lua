@@ -3,17 +3,17 @@ require("lazy").setup({
     "evanleck/vim-svelte",
     ft = { "svelte" },
   },
-  {  
-    "nvim-treesitter/nvim-treesitter", 
-    build = ":TSUpdate", 
-    config = function () 
+  {
+    "nvim-treesitter/nvim-treesitter",
+    build = ":TSUpdate",
+    config = function()
       require("nvim-treesitter.configs").setup({
-        ensure_installed = { "dart", "lua", "typescript", "javascript", "json", "svelte", "css", "scss"} ,
+        ensure_installed = { "dart", "lua", "typescript", "javascript", "json", "svelte", "css", "scss", "vue" },
         highlight = { enable = true, additional_vim_regex_highlighting = { "svelte" } },
         indent = { enable = true },
       })
-    end,  
-    
+    end,
+
   },
   -- Autopairs
   {
@@ -23,32 +23,16 @@ require("lazy").setup({
   },
   -- LSP Config
   { "neovim/nvim-lspconfig" },
-  { "williamboman/mason.nvim", config = true },
-  { "williamboman/mason-lspconfig.nvim", 
-    config = function()
-      require("mason-lspconfig").setup {
-        ensure_installed = { "svelte" },
-      }
-      local lspconfig = require("lspconfig")
-      -- your other servers…
-      lspconfig.svelte.setup {
-        on_attach = function(client, bufnr)
-          -- your common on_attach
-        end,
-        settings = {
-          -- any svelte-language-server options
-          svelte = { plugin = { css = { format = { enable = true } } } }
-        }
-      }
-    end,
+  { "williamboman/mason.nvim" },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    dependencies = { "neovim/nvim-lspconfig", "williamboman/mason.nvim" },
   },
   -- Theme: Kanagawa
   {
-    "rebelot/kanagawa.nvim",
+    "scottmckendry/cyberdream.nvim",
+    lazy = false,
     priority = 1000,
-    config = function()
-      vim.cmd("colorscheme kanagawa")
-    end,
   },
 
   -- Flutter Tools
@@ -68,76 +52,80 @@ require("lazy").setup({
     "nvim-telescope/telescope.nvim",
     tag = "0.1.8",
     dependencies = { "nvim-lua/plenary.nvim" },
+    picker = {
+      find_files = {
+        hidden = true,
+        no_ignore = true
+      }
+    }
   },
   -- Nvim-Tree
   {
-  "nvim-tree/nvim-tree.lua",
-  dependencies = { "nvim-tree/nvim-web-devicons" },
-  config = function()
-    require("nvim-tree").setup({
-      view = {
-        width = 30,
-        side = "left",
-      },
-      renderer = {
-        group_empty = true,
-      },
-      filters = {
-        dotfiles = false,
-      },
-    })
-  end,
+    "nvim-tree/nvim-tree.lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      require("nvim-tree").setup({
+        view = {
+          width = 30,
+          side = "left",
+        },
+        renderer = {
+          group_empty = true,
+        },
+        filters = {
+          dotfiles = false,
+        },
+      })
+    end,
+  },
+  -- nvim-cmp setup (autocomplete engine + LSP integration)
+  {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+      "hrsh7th/cmp-nvim-lsp",     -- LSP completion capabilities
+      "L3MON4D3/LuaSnip",         -- Snippet engine
+      "saadparwaiz1/cmp_luasnip", -- Snippet source
+      "hrsh7th/cmp-buffer",       -- Buffer completions
+      "hrsh7th/cmp-path",         -- Path completions
+    },
+    config = function()
+      local cmp = require("cmp")
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            require("luasnip").lsp_expand(args.body)
+          end,
+        },
+        mapping = cmp.mapping.preset.insert({
+          ["<Tab>"] = cmp.mapping.select_next_item(),
+          ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+        }),
+        sources = cmp.config.sources({
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "buffer" },
+          { name = "path" },
+        }),
+      })
+    end,
   },
   {
-    "nvim-tree/nvim-tree.lua", dependencies = { "nvim-tree/nvim-web-devicons" }
-  },
- -- nvim-cmp setup (autocomplete engine + LSP integration)
-  {
-  "hrsh7th/nvim-cmp",
-  dependencies = {
-    "hrsh7th/cmp-nvim-lsp",     -- LSP completion capabilities
-    "L3MON4D3/LuaSnip",         -- Snippet engine
-    "saadparwaiz1/cmp_luasnip", -- Snippet source
-    "hrsh7th/cmp-buffer",       -- Buffer completions
-    "hrsh7th/cmp-path",         -- Path completions
-  },
-  config = function()
-    local cmp = require("cmp")
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          require("luasnip").lsp_expand(args.body)
-        end,
-      },
-      mapping = cmp.mapping.preset.insert({
-        ["<Tab>"] = cmp.mapping.select_next_item(),
-        ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-      }),
-      sources = cmp.config.sources({
-        { name = "nvim_lsp" },
-        { name = "luasnip" },
-        { name = "buffer" },
-        { name = "path" },
-      }),
-    })
-  end,
-  },
-  {
-  "folke/which-key.nvim",
-  event = "VeryLazy",
-  config = function()
-    require("which-key").setup()
-  end,
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("which-key").setup()
+    end,
   },
   {
     'romgrk/barbar.nvim',
     dependencies = {
-      'lewis6991/gitsigns.nvim', -- OPTIONAL: for git status
+      'lewis6991/gitsigns.nvim',     -- OPTIONAL: for git status
       'nvim-tree/nvim-web-devicons', -- OPTIONAL: for file icons
     },
     init = function() vim.g.barbar_auto_setup = false end,
     opts = {
+      focus_on_close = 'left'
       -- lazy.nvim will automatically call setup for you. put your options here, anything missing will use the default:
       -- animation = true,
       -- insert_at_start = true,
@@ -145,4 +133,8 @@ require("lazy").setup({
     },
     version = '^1.0.0', -- optional: only update when a new 1.x version is released
   },
+  {
+    "tpope/vim-fugitive",
+    cmd = { "Git", "Gdiffsplit", "Gread", "Gwrite", "Glog", "Gedit" }
+  }
 })

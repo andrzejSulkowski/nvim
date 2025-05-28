@@ -29,4 +29,4 @@ vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action
 vim.keymap.set('n', '<leader>bn', '<Cmd>BufferNext<CR>',     { desc="Next buffer (barbar)" })
 vim.keymap.set('n', '<leader>bp', '<Cmd>BufferPrevious<CR>', { desc="Prev buffer (barbar)" })
 vim.keymap.set("n", "<leader>fb", ":Telescope buffers<CR>", { desc = "Find Buffers" })
-vim.keymap.set('n', '<leader>bd', ':bdelete<CR>', { desc = 'Close buffer' })
+vim.keymap.set('n', '<leader>bd', '<Cmd>BufferClose<CR>', { desc = 'Close buffer (Barbar)' })
